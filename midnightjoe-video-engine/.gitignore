@@ -1,3 +1,5 @@
 # Finished videos and test pictures go here. They are big, so they are not saved to GitHub.
 work/
 __pycache__/
+# Painting files stay in Google Drive, not on GitHub
+paintings/*.jpg
