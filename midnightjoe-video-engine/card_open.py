@@ -156,7 +156,7 @@ def build(name):
             th = math.pi * ease(t, *OPEN)                          # cover swings open on its left edge
             live = front_frame(P, t, snow=False)
             fr = pg.copy()
-            fr[iy:iy + ih, ix:ix + iw] = cv2.resize(live[0:int(W * ih / iw)], (iw, ih), interpolation=cv2.INTER_AREA)
+            fr[iy:iy + ih, ix:ix + iw] = cv2.resize(live[c.get('inset_y', 0):c.get('inset_y', 0) + int(W * ih / iw)], (iw, ih), interpolation=cv2.INTER_AREA)
             ta = txt_a * ease(t, *TXT)
             fr = fr * (1 - ta) + txt * ta
             if th < math.pi / 2:

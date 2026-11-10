@@ -17,6 +17,22 @@ CARDS = {
                       glow_box=(1150, 20, 1660, 720), lo=.42, hi=.72, halo=45, hg=2.0,
                       amp=.20, hamp=.28, slow=(2, 3), flutter=(37, 59), flutter_amt=.12,
                       title='Merry Christmas', line2='Peace & light this season'),
+    'candle_card': dict(file='paintings/candle.jpg', crop_x=993, inset_y=450,
+                        glow_box=(1050, 350, 1760, 1300), lo=.45, hi=.75, halo=45, hg=2.0,
+                        amp=.22, hamp=.30, slow=(3, 4), flutter=(23, 37), flutter_amt=.30,
+                        title='Merry Christmas', line2='May your home be warm and bright'),
+    'lamplight_card': dict(file='paintings/door.jpg', crop_x=1540,
+                           glow_box=(1500, 0, 2576, 1300), lo=.55, hi=.80, halo=40, hg=2.0,
+                           amp=.20, hamp=.28, slow=(2, 3), flutter=(37, 59), flutter_amt=.10,
+                           title="Season's Greetings", line2="Wishing you a peaceful winter's night"),
+    'shop_card': dict(file='paintings/shop.jpg', crop_x=1323, inset_y=250,
+                      glow_box=(1250, 350, 2250, 1200), lo=.55, hi=.82, halo=35, hg=2.0,
+                      amp=.20, hamp=.30, slow=(3, 4), flutter=(37, 59), flutter_amt=.10,
+                      title='Happy Holidays', line2='Warm wishes from our home to yours'),
+    'shoppers_card': dict(file='paintings/shoppers.jpg', crop_x=1243, inset_y=300,
+                          glow_box=(1000, 150, 2200, 1000), lo=.65, hi=.90, halo=40, hg=1.6,
+                          amp=.14, hamp=.22, slow=(2, 3), flutter=(37, 59), flutter_amt=.10,
+                          title='Merry Christmas', line2='Joy to you and yours this season'),
 }
 
 
