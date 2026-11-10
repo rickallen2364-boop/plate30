@@ -77,7 +77,8 @@ def render_snow(layers, t):
     return acc
 
 
-def build(name):
+def prepare(name):
+    """Load the painting, crop it to phone shape and work out where the light glows."""
     c = CARDS[name]
     src = cv2.imread(c['file'])
     if src is None:
@@ -94,8 +95,28 @@ def build(name):
     roi[int(y0 * s):int(y1 * s), max(0, int((x0 - c['crop_x']) * s)):int((x1 - c['crop_x']) * s)] = 1
     m *= cv2.GaussianBlur(roi, (0, 0), 40)
     halo = np.clip(cv2.GaussianBlur(f * m[..., None], (0, 0), c['halo']) * c['hg'], 0, 1)
-    snow = snow_layers()
-    tint = np.array([0.92, 0.97, 1.0], np.float32)   # BGR: slightly warm-white flakes
+    return dict(c=c, f=f, m=m, halo=halo, snow=snow_layers())
+
+
+TINT = np.array([0.92, 0.97, 1.0], np.float32)   # BGR: slightly warm-white flakes
+
+
+def front_frame(P, t, snow=True):
+    """The painting at time t: glowing light plus falling snow, as a float BGR image (0..1)."""
+    c = P['c']
+    k1, k2 = c['slow']
+    q1, q2 = c['flutter']
+    fl = (0.7 * math.sin(2 * math.pi * k1 / T * t) + 0.3 * math.sin(2 * math.pi * k2 / T * t + 1.3)
+          + c['flutter_amt'] * (math.sin(2 * math.pi * q1 / T * t) + math.sin(2 * math.pi * q2 / T * t + 2.1)))
+    fr = np.clip(P['f'] * (1 + c['amp'] * P['m'] * fl)[..., None] + P['halo'] * (c['hamp'] * (0.5 + 0.5 * fl)), 0, 1)
+    if snow:
+        fr = 1 - (1 - fr) * (1 - render_snow(P['snow'], t)[..., None] * TINT)
+    return fr
+
+
+def build(name):
+    P = prepare(name)
+    c = P['c']
     txt = np.asarray(text_layer(c)).astype(np.float32) / 255
     ta, trgb = txt[..., 3:4], txt[..., 2::-1]         # RGBA -> alpha + BGR
     os.makedirs(OUT, exist_ok=True)
@@ -104,15 +125,8 @@ def build(name):
            '-r', str(FPS), '-i', '-', '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p',
            '-tag:v', 'avc1', '-movflags', '+faststart', out]
     p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
-    k1, k2 = c['slow']
-    q1, q2 = c['flutter']
     for i in range(T * FPS):
-        t = i / FPS
-        fl = (0.7 * math.sin(2 * math.pi * k1 / T * t) + 0.3 * math.sin(2 * math.pi * k2 / T * t + 1.3)
-              + c['flutter_amt'] * (math.sin(2 * math.pi * q1 / T * t) + math.sin(2 * math.pi * q2 / T * t + 2.1)))
-        fr = f * (1 + c['amp'] * m * fl)[..., None] + halo * (c['hamp'] * (0.5 + 0.5 * fl))
-        sn = render_snow(snow, t)[..., None] * tint
-        fr = 1 - (1 - np.clip(fr, 0, 1)) * (1 - sn)
+        fr = front_frame(P, i / FPS)
         fr = fr * (1 - ta) + trgb * ta
         frame = (np.clip(fr, 0, 1) * 255).astype(np.uint8)
         if i == 0:
