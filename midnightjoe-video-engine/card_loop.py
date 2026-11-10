@@ -1,0 +1,127 @@
+"""Animated greeting card: a short, perfectly looping phone video (9:16) made from one painting.
+
+The painting's light gently glows and flickers, snow falls, and a greeting sits at the bottom.
+Usage:  python card_loop.py door_card
+Writes: work/cards/<name>.mp4 (looping video) and work/cards/<name>.jpg (still preview)
+"""
+import cv2, numpy as np, subprocess, sys, math, os
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
+
+W, H, FPS, T = 1080, 1920, 24, 10          # phone size, 10-second seamless loop
+OUT = './work/cards/'
+FONT_DIR = os.environ.get('CARD_FONTS', 'fonts/')
+
+CARDS = {
+    # Front door with wreath. Coordinates are on the 2576 x 1449 painting.
+    'door_card': dict(file='paintings/door_card.jpg', crop_x=997,
+                      glow_box=(1150, 20, 1660, 720), lo=.42, hi=.72, halo=45, hg=2.0,
+                      amp=.20, hamp=.28, slow=(2, 3), flutter=(37, 59), flutter_amt=.12,
+                      title='Merry Christmas', line2='Peace & light this season'),
+}
+
+
+def smooth(x, a, b):
+    t = np.clip((x - a) / (b - a), 0, 1)
+    return t * t * (3 - 2 * t)
+
+
+def text_layer(c):
+    """Greeting text with a soft dark band behind it, as an RGBA image."""
+    layer = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    band = np.zeros((H, W), np.float32)
+    y0 = int(H * 0.70)
+    band[y0:] = np.linspace(0, 1, H - y0)[:, None] ** 0.8
+    shade = Image.fromarray((band * 190).astype(np.uint8))
+    layer.paste(Image.new('RGBA', (W, H), (20, 14, 8, 255)), (0, 0), shade)
+    d = ImageDraw.Draw(layer)
+    f1 = ImageFont.truetype(FONT_DIR + 'cormorant-garamond-latin-600-italic.woff', 128)
+    f2 = ImageFont.truetype(FONT_DIR + 'cormorant-garamond-latin-500-normal.woff', 54)
+    f3 = ImageFont.truetype(FONT_DIR + 'cormorant-garamond-latin-500-italic.woff', 30)
+    gold, cream = (232, 196, 128, 255), (240, 228, 205, 235)
+    shadow = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    ds = ImageDraw.Draw(shadow)
+    for draw, col in ((ds, (0, 0, 0, 200)), (d, None)):
+        draw.text((W / 2, 1585), c['title'], font=f1, anchor='mm', fill=col or gold)
+        draw.text((W / 2, 1712), c['line2'], font=f2, anchor='mm', fill=col or cream)
+        draw.text((W / 2, 1868), 'MidnightJoeArt', font=f3, anchor='mm', fill=col or (200, 180, 150, 150))
+    shadow = shadow.filter(ImageFilter.GaussianBlur(6))
+    return Image.alpha_composite(shadow, layer)
+
+
+def snow_layers():
+    """Three layers of flakes. Every speed and sway is a whole number of cycles in T, so the loop is seamless."""
+    rng = np.random.default_rng(21)
+    # (count per tile, radius, tile height, tiles moved per loop, alpha, blur)
+    specs = [(70, 2, 640, 1, .55, .8), (30, 3, 640, 2, .55, 1.3), (9, 6, 1920, 1, .40, 2.8)]
+    layers = []
+    for n, r, P, k, a, bl in specs:
+        reps = H // P
+        x = np.tile(rng.uniform(0, W, n), reps)
+        base = rng.uniform(0, P, n)
+        y = np.concatenate([base + j * P for j in range(reps)])   # same flakes repeated down the screen
+        layers.append(dict(r=r, a=a, bl=bl, x=x, y=y, v=k * P / T, sw=np.tile(rng.uniform(6, 20, n), reps),
+                           ph=np.tile(rng.uniform(0, 6.28, n), reps), cyc=np.tile(rng.integers(1, 3, n), reps)))
+    return layers
+
+
+def render_snow(layers, t):
+    acc = np.zeros((H, W), np.float32)
+    for L in layers:
+        img = np.zeros((H, W), np.float32)
+        x = (L['x'] + L['sw'] * np.sin(2 * math.pi * L['cyc'] / T * t + L['ph'])) % W
+        y = (L['y'] + L['v'] * t) % H
+        for xi, yi in zip(x, y):
+            cv2.circle(img, (int(xi), int(yi)), L['r'], L['a'], -1, cv2.LINE_AA)
+        img = cv2.GaussianBlur(img, (0, 0), L['bl'])
+        acc = 1 - (1 - acc) * (1 - img)
+    return acc
+
+
+def build(name):
+    c = CARDS[name]
+    src = cv2.imread(c['file'])
+    if src is None:
+        sys.exit(f"Could not find {c['file']}")
+    Hs = src.shape[0]
+    cw = int(round(Hs * W / H))
+    img = cv2.resize(src[:, c['crop_x']:c['crop_x'] + cw], (W, H), interpolation=cv2.INTER_CUBIC)
+    s = W / cw
+    f = img.astype(np.float32) / 255
+    b, g, r = cv2.split(f)
+    m = smooth(.114 * b + .587 * g + .299 * r, c['lo'], c['hi']) * smooth(r - b, -0.02, 0.08)
+    x0, y0, x1, y1 = c['glow_box']
+    roi = np.zeros((H, W), np.float32)
+    roi[int(y0 * s):int(y1 * s), max(0, int((x0 - c['crop_x']) * s)):int((x1 - c['crop_x']) * s)] = 1
+    m *= cv2.GaussianBlur(roi, (0, 0), 40)
+    halo = np.clip(cv2.GaussianBlur(f * m[..., None], (0, 0), c['halo']) * c['hg'], 0, 1)
+    snow = snow_layers()
+    tint = np.array([0.92, 0.97, 1.0], np.float32)   # BGR: slightly warm-white flakes
+    txt = np.asarray(text_layer(c)).astype(np.float32) / 255
+    ta, trgb = txt[..., 3:4], txt[..., 2::-1]         # RGBA -> alpha + BGR
+    os.makedirs(OUT, exist_ok=True)
+    out = OUT + name + '.mp4'
+    cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}',
+           '-r', str(FPS), '-i', '-', '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p',
+           '-tag:v', 'avc1', '-movflags', '+faststart', out]
+    p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+    k1, k2 = c['slow']
+    q1, q2 = c['flutter']
+    for i in range(T * FPS):
+        t = i / FPS
+        fl = (0.7 * math.sin(2 * math.pi * k1 / T * t) + 0.3 * math.sin(2 * math.pi * k2 / T * t + 1.3)
+              + c['flutter_amt'] * (math.sin(2 * math.pi * q1 / T * t) + math.sin(2 * math.pi * q2 / T * t + 2.1)))
+        fr = f * (1 + c['amp'] * m * fl)[..., None] + halo * (c['hamp'] * (0.5 + 0.5 * fl))
+        sn = render_snow(snow, t)[..., None] * tint
+        fr = 1 - (1 - np.clip(fr, 0, 1)) * (1 - sn)
+        fr = fr * (1 - ta) + trgb * ta
+        frame = (np.clip(fr, 0, 1) * 255).astype(np.uint8)
+        if i == 0:
+            cv2.imwrite(OUT + name + '.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 92])
+        p.stdin.write(frame.tobytes())
+    p.stdin.close()
+    p.wait()
+    print('card written:', out)
+
+
+if __name__ == '__main__':
+    build(sys.argv[1] if len(sys.argv) > 1 else 'door_card')
