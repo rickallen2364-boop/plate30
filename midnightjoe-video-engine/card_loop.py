@@ -71,6 +71,11 @@ CARDS = {
                       glow_box=(1000, 450, 2100, 1150), lo=.45, hi=.75, halo=40, hg=2.0,
                       amp=.20, hamp=.30, slow=(2, 3), flutter=(37, 59), flutter_amt=.12,
                       title='Happy Holidays', line2='Come in from the cold'),
+    # ---- Afrocentric Christmas collection ----
+    'carolers_card': dict(file='paintings/4k/carolers.jpg', crop_x=864,
+                          glow_box=(0, 0, 2576, 1449), lo=.70, hi=.92, halo=35, hg=2.0,
+                          amp=.22, hamp=.30, slow=(3, 4), flutter=(23, 37), flutter_amt=.25,
+                          title='Merry Christmas', line2='Let your light shine this season'),
 }
 
 
