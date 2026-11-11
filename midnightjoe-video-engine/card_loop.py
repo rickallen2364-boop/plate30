@@ -76,6 +76,10 @@ CARDS = {
                           glow_box=(0, 0, 2576, 1449), lo=.70, hi=.92, halo=35, hg=2.0,
                           amp=.22, hamp=.30, slow=(3, 4), flutter=(23, 37), flutter_amt=.25,
                           title='Merry Christmas', line2='Let your light shine this season'),
+    'starlight_card': dict(file='paintings/4k/starlight.jpg', crop_x=888,
+                           glow_box=(0, 0, 2576, 1449), lo=.76, hi=.94, halo=35, hg=2.0,
+                           amp=.22, hamp=.30, slow=(3, 4), flutter=(23, 37), flutter_amt=.25,
+                           title='Joy to the World', line2='Wishing you peace and light'),
 }
 
 
