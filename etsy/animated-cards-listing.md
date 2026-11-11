@@ -42,7 +42,8 @@ Your card arrives in a cream envelope sealed with red wax. The flap opens, the c
 5. Holiday Shoppers: "Merry Christmas. Joy to you and yours this season"
 
 WHAT YOU GET (for every design)
-• Opening card video (20 seconds): envelope, wax seal, card opens to the greeting
+• Phone card: opening card video (20 seconds): envelope, wax seal, card opens to the greeting
+• Computer card: wide opening card video (20 seconds), fills a laptop or computer screen
 • Small version for Android picture messages
 • Looping card video for Facebook, Instagram & WhatsApp posts and stories
 • Email GIF that plays by itself inside an email
@@ -53,7 +54,9 @@ iPhone: save the video to Photos, then send it in Messages like any video.
 Android: use the "small" version in picture messages.
 WhatsApp / Facebook Messenger: send the opening card video.
 Facebook / Instagram: post the looping card or the opening card.
-Email: add the GIF to your email so it plays automatically.
+Email: attach the computer card, or add the GIF so it plays automatically.
+
+Want all 13 designs? See the Complete Collection in my shop.
 
 HOW IT WORKS
 This is a DIGITAL DOWNLOAD. Nothing is shipped.
