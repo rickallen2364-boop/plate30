@@ -7,7 +7,7 @@ Writes: work/cards/<name>_wide.mp4
 """
 import cv2, numpy as np, subprocess, sys, math, os
 from PIL import Image, ImageDraw
-from card_loop import CARDS, FPS, T, OUT, smooth, TINT
+from card_loop import CARDS, FPS, T, OUT, smooth, TINT, window_mask
 from card_open import ease, paper, over, poly_mask, make_seal, DUR, FADE_IN, FLAP, RISE, ZOOM, OPEN, TXT, FADE_OUT
 from card_loop import FONT_DIR
 from PIL import ImageFont
@@ -35,7 +35,7 @@ def prepare_wide(name):
     roi[y0:y1, x0:x1] = 1
     m *= cv2.GaussianBlur(roi, (0, 0), 40)
     halo = np.clip(cv2.GaussianBlur(f * m[..., None], (0, 0), c['halo']) * c['hg'], 0, 1)
-    return dict(c=c, f=f, m=m, halo=halo, snow=snow_layers())
+    return dict(c=c, f=f, m=m, halo=halo, snow=snow_layers(), snow_mask=window_mask(c, f, k * s))
 
 
 def snow_layers():
@@ -73,7 +73,10 @@ def front(P, t, snow=True):
           + c['flutter_amt'] * (math.sin(2 * math.pi * q1 / T * t) + math.sin(2 * math.pi * q2 / T * t + 2.1)))
     fr = np.clip(P['f'] * (1 + c['amp'] * P['m'] * fl)[..., None] + P['halo'] * (c['hamp'] * (0.5 + 0.5 * fl)), 0, 1)
     if snow:
-        fr = 1 - (1 - fr) * (1 - render_snow(P['snow'], t)[..., None] * TINT)
+        sn = render_snow(P['snow'], t)[..., None] * TINT
+        if P['snow_mask'] is not None:
+            sn = sn * P['snow_mask']
+        fr = 1 - (1 - fr) * (1 - sn)
     return fr
 
 

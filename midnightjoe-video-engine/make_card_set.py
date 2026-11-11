@@ -32,8 +32,10 @@ for key, title in CARDS:
     os.makedirs(d, exist_ok=True)
     name = title.split(' ', 1)[1]
     opened, loop = SRC + key + '_open.mp4', SRC + key + '.mp4'
-    # 1. full quality opening card (iPhone, WhatsApp, Facebook, email attachment)
+    # 1. full quality opening card for phones (iPhone, WhatsApp, Facebook)
     shutil.copy(opened, d + f'{name} - Opening Card.mp4')
+    # 1b. wide opening card for laptops and computers (card_wide.py)
+    shutil.copy(SRC + key + '_wide.mp4', d + f'{name} - Computer Card.mp4')
     # 2. small version for Android picture messages (two-pass to hit the size)
     small = d + f'{name} - Opening Card (small, for Android texts).mp4'
     common = ['-i', opened, '-vf', 'scale=540:960', '-c:v', 'libx264', '-b:v', f'{SMALL_KBPS}k', '-preset', 'slow',

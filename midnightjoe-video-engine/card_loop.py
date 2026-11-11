@@ -45,7 +45,9 @@ CARDS = {
     'mittens_card': dict(file='paintings/4k/mittens.jpg', crop_x=1500, inset_y=100,
                          glow_box=(1300, 300, 2576, 1449), lo=.45, hi=.75, halo=45, hg=2.0,
                          amp=.22, hamp=.30, slow=(3, 4), flutter=(23, 37), flutter_amt=.25,
-                         title='Warm Wishes', line2='Stay cozy this Christmas'),
+                         title='Warm Wishes', line2='Stay cozy this Christmas',
+                         snow_window=820,    # snow only on the blue window glass above this line (indoor scene)
+                         snow_exclude=[(755, 700, 300, 330), (1450, 650, 100, 220), (1757, 694, 272, 302), (2149, 694, 196, 287)]),  # the mittens
     'village_card': dict(file='paintings/4k/moody1.jpg', crop_x=851,
                          glow_box=(0, 0, 2576, 1449), lo=.55, hi=.85, halo=35, hg=2.0,
                          amp=.20, hamp=.28, slow=(3, 4), flutter=(37, 59), flutter_amt=.10,
@@ -146,7 +148,20 @@ def prepare(name):
     roi[int(y0 * s):int(y1 * s), max(0, int((x0 - cx) * s)):int((x1 - cx) * s)] = 1
     m *= cv2.GaussianBlur(roi, (0, 0), 40)
     halo = np.clip(cv2.GaussianBlur(f * m[..., None], (0, 0), c['halo']) * c['hg'], 0, 1)
-    return dict(c=c, f=f, m=m, halo=halo, snow=snow_layers())
+    return dict(c=c, f=f, m=m, halo=halo, snow=snow_layers(), snow_mask=window_mask(c, f, k * s, cx * s))
+
+
+def window_mask(c, f, scale, offset=0):
+    """For indoor scenes: 1 on the cool, blue-grey window glass above the sill, 0 elsewhere (None = snow everywhere).
+    `scale` turns 2576-wide painting positions into screen pixels; `offset` is how far the crop starts from the left."""
+    if 'snow_window' not in c:
+        return None
+    b, g, r = cv2.split(f)
+    m = smooth(b - r, -0.02, 0.06)
+    m[int(c['snow_window'] * scale):] = 0
+    for ex, ey, ax, ay in c.get('snow_exclude', []):   # objects in front of the glass
+        cv2.ellipse(m, (int(ex * scale - offset), int(ey * scale)), (int(ax * scale), int(ay * scale)), 0, 0, 360, 0, -1)
+    return cv2.GaussianBlur(m, (0, 0), 3)[..., None]
 
 
 TINT = np.array([0.92, 0.97, 1.0], np.float32)   # BGR: slightly warm-white flakes
@@ -161,7 +176,10 @@ def front_frame(P, t, snow=True):
           + c['flutter_amt'] * (math.sin(2 * math.pi * q1 / T * t) + math.sin(2 * math.pi * q2 / T * t + 2.1)))
     fr = np.clip(P['f'] * (1 + c['amp'] * P['m'] * fl)[..., None] + P['halo'] * (c['hamp'] * (0.5 + 0.5 * fl)), 0, 1)
     if snow:
-        fr = 1 - (1 - fr) * (1 - render_snow(P['snow'], t)[..., None] * TINT)
+        sn = render_snow(P['snow'], t)[..., None] * TINT
+        if P.get('snow_mask') is not None:
+            sn = sn * P['snow_mask']
+        fr = 1 - (1 - fr) * (1 - sn)
     return fr
 
 
