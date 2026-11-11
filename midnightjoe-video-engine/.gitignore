@@ -3,3 +3,4 @@ work/
 __pycache__/
 # Painting files stay in Google Drive, not on GitHub
 paintings/*.jpg
+paintings/**/*.jpg

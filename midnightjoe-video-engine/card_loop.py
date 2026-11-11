@@ -12,57 +12,57 @@ OUT = './work/cards/'
 FONT_DIR = os.environ.get('CARD_FONTS', 'fonts/')
 
 CARDS = {
-    # Front door with wreath. Coordinates are on the 2576 x 1449 painting.
-    'door_card': dict(file='paintings/door_card.jpg', crop_x=997,
+    # Paintings are the 4K originals. Positions below are measured on a 2576-wide copy and scaled automatically.
+    'door_card': dict(file='paintings/4k/moody4.jpg', crop_x=997,
                       glow_box=(1150, 20, 1660, 720), lo=.42, hi=.72, halo=45, hg=2.0,
                       amp=.20, hamp=.28, slow=(2, 3), flutter=(37, 59), flutter_amt=.12,
                       title='Merry Christmas', line2='Peace & light this season'),
-    'candle_card': dict(file='paintings/candle.jpg', crop_x=993, inset_y=450,
+    'candle_card': dict(file='paintings/4k/candle.jpg', crop_x=993, inset_y=450,
                         glow_box=(1050, 350, 1760, 1300), lo=.45, hi=.75, halo=45, hg=2.0,
                         amp=.22, hamp=.30, slow=(3, 4), flutter=(23, 37), flutter_amt=.30,
                         title='Merry Christmas', line2='May your home be warm and bright'),
-    'lamplight_card': dict(file='paintings/door.jpg', crop_x=1540,
+    'lamplight_card': dict(file='paintings/4k/door.jpg', crop_x=1540,
                            glow_box=(1500, 0, 2576, 1300), lo=.55, hi=.80, halo=40, hg=2.0,
                            amp=.20, hamp=.28, slow=(2, 3), flutter=(37, 59), flutter_amt=.10,
                            title="Season's Greetings", line2="Wishing you a peaceful winter's night"),
-    'shop_card': dict(file='paintings/shop.jpg', crop_x=1323, inset_y=250,
+    'shop_card': dict(file='paintings/4k/shop.jpg', crop_x=1323, inset_y=250,
                       glow_box=(1250, 350, 2250, 1200), lo=.55, hi=.82, halo=35, hg=2.0,
                       amp=.20, hamp=.30, slow=(3, 4), flutter=(37, 59), flutter_amt=.10,
                       title='Happy Holidays', line2='Warm wishes from our home to yours'),
-    'shoppers_card': dict(file='paintings/shoppers.jpg', crop_x=1243, inset_y=300,
+    'shoppers_card': dict(file='paintings/4k/shoppers.jpg', crop_x=1243, inset_y=300,
                           glow_box=(1000, 150, 2200, 1000), lo=.65, hi=.90, halo=40, hg=1.6,
                           amp=.14, hamp=.22, slow=(2, 3), flutter=(37, 59), flutter_amt=.10,
                           title='Merry Christmas', line2='Joy to you and yours this season'),
     # ---- Set 2 ----
-    'lanterns_card': dict(file='paintings/lanterns.jpg', crop_x=448,
+    'lanterns_card': dict(file='paintings/4k/lanterns.jpg', crop_x=448,
                           glow_box=(300, 30, 1800, 900), lo=.50, hi=.80, halo=40, hg=2.0,
                           amp=.20, hamp=.30, slow=(2, 3), flutter=(37, 59), flutter_amt=.12,
                           title='Merry Christmas', line2='Lighting your way home this season'),
-    'church_card': dict(file='paintings/church.jpg', crop_x=448, inset_y=400,
+    'church_card': dict(file='paintings/4k/church.jpg', crop_x=448, inset_y=400,
                         glow_box=(250, 400, 1500, 1300), lo=.45, hi=.75, halo=40, hg=2.0,
                         amp=.20, hamp=.30, slow=(2, 3), flutter=(29, 47), flutter_amt=.15,
                         title='O Holy Night', line2='Wishing you peace this Christmas'),
-    'mittens_card': dict(file='paintings/mittens.jpg', crop_x=1500, inset_y=100,
+    'mittens_card': dict(file='paintings/4k/mittens.jpg', crop_x=1500, inset_y=100,
                          glow_box=(1300, 300, 2576, 1449), lo=.45, hi=.75, halo=45, hg=2.0,
                          amp=.22, hamp=.30, slow=(3, 4), flutter=(23, 37), flutter_amt=.25,
                          title='Warm Wishes', line2='Stay cozy this Christmas'),
-    'village_card': dict(file='paintings/moody1.jpg', crop_x=851,
+    'village_card': dict(file='paintings/4k/moody1.jpg', crop_x=851,
                          glow_box=(0, 0, 2576, 1449), lo=.55, hi=.85, halo=35, hg=2.0,
                          amp=.20, hamp=.28, slow=(3, 4), flutter=(37, 59), flutter_amt=.10,
                          title='Merry Christmas', line2='May your days be merry and bright'),
-    'cottage_card': dict(file='paintings/moody2.jpg', crop_x=1393, inset_y=150,
+    'cottage_card': dict(file='paintings/4k/moody2.jpg', crop_x=1393, inset_y=150,
                          glow_box=(1300, 450, 2400, 1150), lo=.45, hi=.75, halo=40, hg=2.0,
                          amp=.22, hamp=.30, slow=(2, 3), flutter=(29, 47), flutter_amt=.15,
                          title="Season's Greetings", line2='Peace on earth, and in your home'),
-    'frost_card': dict(file='paintings/moody3.jpg', crop_x=300, inset_y=250,
+    'frost_card': dict(file='paintings/4k/moody3.jpg', crop_x=300, inset_y=250,
                        glow_box=(0, 250, 1400, 1300), lo=.45, hi=.75, halo=50, hg=2.0,
                        amp=.20, hamp=.30, slow=(2, 3), flutter=(23, 37), flutter_amt=.10,
                        title='Peace & Joy', line2='Warmest wishes this winter'),
-    'carriage_card': dict(file='paintings/moody6.jpg', crop_x=943, inset_y=550,
+    'carriage_card': dict(file='paintings/4k/moody6.jpg', crop_x=943, inset_y=550,
                           glow_box=(900, 300, 2000, 1250), lo=.45, hi=.75, halo=40, hg=2.0,
                           amp=.22, hamp=.30, slow=(2, 3), flutter=(29, 47), flutter_amt=.15,
                           title='Merry Christmas', line2='Wishing you a joyful journey home'),
-    'cafe_card': dict(file='paintings/moody7.jpg', crop_x=1093, inset_y=300,
+    'cafe_card': dict(file='paintings/4k/moody7.jpg', crop_x=1093, inset_y=300,
                       glow_box=(1000, 450, 2100, 1150), lo=.45, hi=.75, halo=40, hg=2.0,
                       amp=.20, hamp=.30, slow=(2, 3), flutter=(37, 59), flutter_amt=.12,
                       title='Happy Holidays', line2='Come in from the cold'),
@@ -132,16 +132,18 @@ def prepare(name):
     src = cv2.imread(c['file'])
     if src is None:
         sys.exit(f"Could not find {c['file']}")
+    k = src.shape[1] / 2576                      # positions are written for a 2576-wide painting
     Hs = src.shape[0]
     cw = int(round(Hs * W / H))
-    img = cv2.resize(src[:, c['crop_x']:c['crop_x'] + cw], (W, H), interpolation=cv2.INTER_CUBIC)
+    cx = min(int(round(c['crop_x'] * k)), src.shape[1] - cw)
+    img = cv2.resize(src[:, cx:cx + cw], (W, H), interpolation=cv2.INTER_AREA if cw > W else cv2.INTER_CUBIC)
     s = W / cw
     f = img.astype(np.float32) / 255
     b, g, r = cv2.split(f)
     m = smooth(.114 * b + .587 * g + .299 * r, c['lo'], c['hi']) * smooth(r - b, -0.02, 0.08)
-    x0, y0, x1, y1 = c['glow_box']
+    x0, y0, x1, y1 = (v * k for v in c['glow_box'])
     roi = np.zeros((H, W), np.float32)
-    roi[int(y0 * s):int(y1 * s), max(0, int((x0 - c['crop_x']) * s)):int((x1 - c['crop_x']) * s)] = 1
+    roi[int(y0 * s):int(y1 * s), max(0, int((x0 - cx) * s)):int((x1 - cx) * s)] = 1
     m *= cv2.GaussianBlur(roi, (0, 0), 40)
     halo = np.clip(cv2.GaussianBlur(f * m[..., None], (0, 0), c['halo']) * c['hg'], 0, 1)
     return dict(c=c, f=f, m=m, halo=halo, snow=snow_layers())
