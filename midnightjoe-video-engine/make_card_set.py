@@ -1,16 +1,25 @@
 """Pack the animated cards into the folder a buyer downloads.
 
 Needs work/cards/<card>_open.mp4 (card_open.py) and work/cards/<card>.mp4 (card_loop.py) for each card.
-Usage:  python make_card_set.py
-Writes: work/delivery/Christmas After Dark - Animated Cards/<number name>/...
+Usage:  python make_card_set.py [set1|set2]
+Writes: work/delivery/<set folder>/<number name>/...
 """
-import os, subprocess, shutil
+import os, subprocess, shutil, sys
 
-CARDS = [('door_card', '1 Front Door with Wreath'), ('candle_card', '2 Amber Candle'),
-         ('lamplight_card', '3 Lamplight Corner'), ('shop_card', '4 Corner Shop'),
-         ('shoppers_card', '5 Holiday Shoppers')]
+SETS = {
+    'set1': ('Christmas After Dark - Animated Cards',
+             [('door_card', '1 Front Door with Wreath'), ('candle_card', '2 Amber Candle'),
+              ('lamplight_card', '3 Lamplight Corner'), ('shop_card', '4 Corner Shop'),
+              ('shoppers_card', '5 Holiday Shoppers')]),
+    'set2': ('Christmas After Dark - Animated Cards Set 2',
+             [('lanterns_card', '1 Christmas Lanterns'), ('church_card', '2 Snowy Church'),
+              ('mittens_card', '3 Christmas Mittens'), ('village_card', '4 Village Lights'),
+              ('cottage_card', '5 Cottage by the Pond'), ('frost_card', '6 Frosted Window'),
+              ('carriage_card', '7 Christmas Carriage'), ('cafe_card', '8 Snowy Night Cafe')]),
+}
+FOLDER, CARDS = SETS[sys.argv[1] if len(sys.argv) > 1 else 'set1']
 SRC = './work/cards/'
-DEST = './work/delivery/Christmas After Dark - Animated Cards/'
+DEST = f'./work/delivery/{FOLDER}/'
 SMALL_KBPS = 330          # keeps the 20-second Android version under about 1 MB
 
 
