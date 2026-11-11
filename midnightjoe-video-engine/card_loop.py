@@ -20,7 +20,10 @@ CARDS = {
     'candle_card': dict(file='paintings/4k/candle.jpg', crop_x=993, inset_y=450,
                         glow_box=(1050, 350, 1760, 1300), lo=.45, hi=.75, halo=45, hg=2.0,
                         amp=.22, hamp=.30, slow=(3, 4), flutter=(23, 37), flutter_amt=.30,
-                        title='Merry Christmas', line2='May your home be warm and bright'),
+                        title='Merry Christmas', line2='May your home be warm and bright',
+                        snow_window=1090,    # snow only on the window glass, not on the sill or the candle jar
+                        snow_color=False,    # the whole window is glass, so don't pick it out by colour
+                        snow_exclude_box=[(0, 0, 362, 1090), (1160, 0, 1300, 1090), (1215, 515, 1775, 1100), (90, 790, 840, 1100)]),  # frame bars, jar, holly
     'lamplight_card': dict(file='paintings/4k/door.jpg', crop_x=1540,
                            glow_box=(1500, 0, 2576, 1300), lo=.55, hi=.80, halo=40, hg=2.0,
                            amp=.20, hamp=.28, slow=(2, 3), flutter=(37, 59), flutter_amt=.10,
@@ -157,8 +160,10 @@ def window_mask(c, f, scale, offset=0):
     if 'snow_window' not in c:
         return None
     b, g, r = cv2.split(f)
-    m = smooth(b - r, -0.02, 0.06)
+    m = smooth(b - r, -0.02, 0.06) if c.get('snow_color', True) else np.ones_like(b)
     m[int(c['snow_window'] * scale):] = 0
+    for x0, y0, x1, y1 in c.get('snow_exclude_box', []):
+        m[max(0, int(y0 * scale)):int(y1 * scale), max(0, int(x0 * scale - offset)):max(0, int(x1 * scale - offset))] = 0
     for ex, ey, ax, ay in c.get('snow_exclude', []):   # objects in front of the glass
         cv2.ellipse(m, (int(ex * scale - offset), int(ey * scale)), (int(ax * scale), int(ay * scale)), 0, 0, 360, 0, -1)
     return cv2.GaussianBlur(m, (0, 0), 3)[..., None]
