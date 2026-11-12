@@ -59,7 +59,7 @@ def text_img(img, lines):
 
 def grid_positions(n, area_w, card_w, card_h, gap, top, row_gap):
     """Cards in rows of up to 7, each row centred. Returns [(x, y)]."""
-    per_row = n if n <= 7 else (n + 1) // 2 if n <= 14 else (n + 2) // 3
+    per_row = n if n <= 7 else (n + 1) // 2
     pos = []
     for i in range(n):
         r, cidx = divmod(i, per_row)
@@ -74,7 +74,7 @@ def preview_video():
     # the envelope opens and the card comes out (3 s)
     seq += [portrait_on_square(f) for f in frames(SRC + 'door_card_open.mp4', 0.6, 4.9, 72)]
     # every card's front (8.5 s for five cards, 7.6 s for thirteen)
-    each = 41 if N <= 5 else 14
+    each = 41 if N <= 5 else 14 if N <= 14 else 11
     for k in KEYS:
         cuts.append(len(seq))
         seq += [portrait_on_square(f) for f in frames(SRC + k + '.mp4', 1.0, 1.0 + each / FPS, each)]
@@ -85,8 +85,8 @@ def preview_video():
     cuts.append(len(seq))
     n_end = 15 * FPS - len(seq)
     loops = [frames(SRC + k + '.mp4', 3.0, 3.0 + n_end / FPS, n_end) for k in KEYS]
-    cw, ch = (189, 336) if N <= 5 else (130, 231)
-    pos = grid_positions(N, S, cw, ch, 18 if N <= 5 else 12, 300 if N <= 5 else 250, 14)
+    cw, ch = (189, 336) if N <= 5 else (130, 231) if N <= 14 else (116, 206)
+    pos = grid_positions(N, S, cw, ch, 18 if N <= 5 else 12 if N <= 14 else 10, 300 if N <= 5 else 250, 14)
     bottom = pos[-1][1] + ch
     for i in range(n_end):
         fr = np.full((S, S, 3), DARK[::-1], np.uint8)
@@ -129,7 +129,7 @@ def photos():
         pos = [(x, y + (40 if j % 2 else 0)) for j, (x, y) in enumerate(grid_positions(N, W, cw, ch, 30, 560, 0))]
         sub, bottom_y = 'Christmas After Dark', 1500
     else:
-        cw, ch = 280, 498
+        cw, ch = (280, 498) if N <= 14 else (240, 427)
         pos = grid_positions(N, W, cw, ch, 26, 520, 34)
         sub, bottom_y = 'Christmas After Dark  ·  The Complete Collection', 1660
     for s, (x, y) in zip(stills, pos):
