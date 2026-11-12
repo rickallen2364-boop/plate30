@@ -15,7 +15,9 @@ SETS = {
              [('lanterns_card', '1 Christmas Lanterns'), ('church_card', '2 Snowy Church'),
               ('mittens_card', '3 Christmas Mittens'), ('village_card', '4 Village Lights'),
               ('cottage_card', '5 Cottage by the Pond'), ('frost_card', '6 Frosted Window'),
-              ('carriage_card', '7 Christmas Carriage'), ('cafe_card', '8 Snowy Night Cafe')]),
+              ('carriage_card', '7 Christmas Carriage'), ('cafe_card', '8 Snowy Night Cafe'),
+              ('window_card', '9 Christmas Window'), ('rush_card', '10 Rush Christmas Eve'),
+              ('rooftops_card', '11 Winter Rooftops')]),
 }
 FOLDER, CARDS = SETS[sys.argv[1] if len(sys.argv) > 1 else 'set1']
 SRC = './work/cards/'

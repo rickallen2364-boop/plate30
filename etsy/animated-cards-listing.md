@@ -56,7 +56,7 @@ WhatsApp / Facebook Messenger: send the opening card video.
 Facebook / Instagram: post the looping card or the opening card.
 Email: attach the computer card, or add the GIF so it plays automatically.
 
-Want all 13 designs? See the Complete Collection in my shop.
+Want all 16 designs? See the Complete Collection in my shop.
 
 HOW IT WORKS
 This is a DIGITAL DOWNLOAD. Nothing is shipped.

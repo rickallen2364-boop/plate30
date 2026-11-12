@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 SRC, FONTS = './work/cards/', 'fonts/'
 SET1 = ['door_card', 'candle_card', 'lamplight_card', 'shop_card', 'shoppers_card']
 SET2 = ['lanterns_card', 'church_card', 'mittens_card', 'village_card', 'cottage_card', 'frost_card',
-        'carriage_card', 'cafe_card']
+        'carriage_card', 'cafe_card', 'window_card', 'rush_card', 'rooftops_card']
 WHICH = sys.argv[1] if len(sys.argv) > 1 else 'set1'
 KEYS = SET1 + SET2 if WHICH == 'complete' else SET1
 OUT = './work/listing/complete/' if WHICH == 'complete' else './work/listing/'
@@ -59,7 +59,7 @@ def text_img(img, lines):
 
 def grid_positions(n, area_w, card_w, card_h, gap, top, row_gap):
     """Cards in rows of up to 7, each row centred. Returns [(x, y)]."""
-    per_row = n if n <= 7 else (n + 1) // 2
+    per_row = n if n <= 7 else (n + 1) // 2 if n <= 14 else (n + 2) // 3
     pos = []
     for i in range(n):
         r, cidx = divmod(i, per_row)
