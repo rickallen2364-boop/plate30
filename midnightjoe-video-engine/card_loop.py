@@ -80,6 +80,11 @@ CARDS = {
                            glow_box=(0, 0, 2576, 1449), lo=.76, hi=.94, halo=35, hg=2.0,
                            amp=.22, hamp=.30, slow=(3, 4), flutter=(23, 37), flutter_amt=.25,
                            title='Joy to the World', line2='Wishing you peace and light'),
+    # ---- Christmas After Dark, new wide paintings ----
+    'window_card': dict(file='paintings/4k/window.jpg', crop_x=924,
+                        glow_box=(760, 0, 1900, 1000), lo=.58, hi=.85, halo=35, hg=2.0,
+                        amp=.22, hamp=.30, slow=(3, 4), flutter=(37, 59), flutter_amt=.15,
+                        title='Merry Christmas', line2='May your home be filled with light'),
 }
 
 
