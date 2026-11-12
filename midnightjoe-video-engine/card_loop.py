@@ -90,6 +90,10 @@ CARDS = {
                       amp=.24, hamp=.32, slow=(3, 4), flutter=(29, 47), flutter_amt=.15,
                       snow_box=[(2080, 0, 2576, 824)],   # indoor office: snow only in the window on the right
                       title="Season's Greetings", line2='Thank you for all you do this season'),
+    'rooftops_card': dict(file='paintings/4k/rooftops.jpg', crop_x=915, warm=(0.18, 0.34),
+                          glow_box=(0, 0, 2576, 1449), lo=.55, hi=.82, halo=35, hg=2.0,
+                          amp=.24, hamp=.32, slow=(3, 4), flutter=(29, 47), flutter_amt=.15,
+                          title='Merry Christmas', line2='From our rooftops to yours'),
 }
 
 
@@ -164,7 +168,7 @@ def prepare(name):
     s = W / cw
     f = img.astype(np.float32) / 255
     b, g, r = cv2.split(f)
-    m = smooth(.114 * b + .587 * g + .299 * r, c['lo'], c['hi']) * smooth(r - b, -0.02, 0.08)
+    m = smooth(.114 * b + .587 * g + .299 * r, c['lo'], c['hi']) * smooth(r - b, *c.get('warm', (-0.02, 0.08)))   # how orange a light must be
     x0, y0, x1, y1 = (v * k for v in c['glow_box'])
     roi = np.zeros((H, W), np.float32)
     roi[int(y0 * s):int(y1 * s), max(0, int((x0 - cx) * s)):int((x1 - cx) * s)] = 1

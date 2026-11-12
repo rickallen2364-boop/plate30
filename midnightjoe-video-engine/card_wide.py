@@ -29,7 +29,7 @@ def prepare_wide(name):
     s = W / src.shape[1]
     f = img.astype(np.float32) / 255
     b, g, r = cv2.split(f)
-    m = smooth(.114 * b + .587 * g + .299 * r, c['lo'], c['hi']) * smooth(r - b, -0.02, 0.08)
+    m = smooth(.114 * b + .587 * g + .299 * r, c['lo'], c['hi']) * smooth(r - b, *c.get('warm', (-0.02, 0.08)))   # how orange a light must be
     x0, y0, x1, y1 = (int(v * k * s) for v in c['glow_box'])
     roi = np.zeros((H, W), np.float32)
     roi[y0:y1, x0:x1] = 1
