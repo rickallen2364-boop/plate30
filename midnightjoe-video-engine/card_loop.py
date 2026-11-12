@@ -85,6 +85,11 @@ CARDS = {
                         glow_box=(760, 0, 1900, 1000), lo=.58, hi=.85, halo=35, hg=2.0,
                         amp=.22, hamp=.30, slow=(3, 4), flutter=(37, 59), flutter_amt=.15,
                         title='Merry Christmas', line2='May your home be filled with light'),
+    'rush_card': dict(file='paintings/4k/rush.jpg', crop_x=715,
+                      glow_box=(650, 550, 1400, 950), lo=.50, hi=.80, halo=40, hg=2.0,
+                      amp=.24, hamp=.32, slow=(3, 4), flutter=(29, 47), flutter_amt=.15,
+                      snow_box=[(2080, 0, 2576, 824)],   # indoor office: snow only in the window on the right
+                      title="Season's Greetings", line2='Thank you for all you do this season'),
 }
 
 
@@ -171,11 +176,16 @@ def prepare(name):
 def window_mask(c, f, scale, offset=0):
     """For indoor scenes: 1 on the cool, blue-grey window glass above the sill, 0 elsewhere (None = snow everywhere).
     `scale` turns 2576-wide painting positions into screen pixels; `offset` is how far the crop starts from the left."""
-    if 'snow_window' not in c:
+    if 'snow_window' not in c and 'snow_box' not in c:
         return None
     b, g, r = cv2.split(f)
-    m = smooth(b - r, -0.02, 0.06) if c.get('snow_color', True) else np.ones_like(b)
-    m[int(c['snow_window'] * scale):] = 0
+    if 'snow_box' in c:                                  # snow only inside these window areas
+        m = np.zeros_like(b)
+        for x0, y0, x1, y1 in c['snow_box']:
+            m[max(0, int(y0 * scale)):int(y1 * scale), max(0, int(x0 * scale - offset)):max(0, int(x1 * scale - offset))] = 1
+    else:
+        m = smooth(b - r, -0.02, 0.06) if c.get('snow_color', True) else np.ones_like(b)
+        m[int(c['snow_window'] * scale):] = 0
     for x0, y0, x1, y1 in c.get('snow_exclude_box', []):
         m[max(0, int(y0 * scale)):int(y1 * scale), max(0, int(x0 * scale - offset)):max(0, int(x1 * scale - offset))] = 0
     for ex, ey, ax, ay in c.get('snow_exclude', []):   # objects in front of the glass
