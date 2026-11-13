@@ -50,3 +50,39 @@ Greeting: *Merry Christmas / Welcome home*
 an old kitchen at night on Christmas Eve, a large window in the center of the back wall with snow falling outside in the dark, a single candle and a steaming mug of cocoa on the windowsill, a plate of cookies on the worktop, warm candlelight on the sill, the window centered in the frame, heavy impasto at the candle glow and frosted glass, the room loosely brushed near-black with a cold cast, extremely thick impasto with visible palette-knife texture, chiaroscuro realist oil painting --no text, letters, signature, watermark, people --chaos 10 --ar 16:9 --raw --sref 7065184119 4662839742 --profile qb9q1py --sw 20 --hd
 
 Greeting: *Warm Wishes / Stay cozy this Christmas*
+
+---
+
+# Set B: new themes (no windows, no street lamps)
+
+Same style codes. These use different motion: mist, twinkle, moon glow, slow push-in.
+
+## B1. Cardinal in the snowy pines (snow + mist)
+a single bright red cardinal perched on a snow-laden pine branch at blue hour, a hushed snowy pine forest fading into soft mist behind it, the bird centered in the frame, gentle snow falling, heavy impasto at the snow on the branches and the bird's red feathers, the forest loosely brushed in deep cold blues and near-black, extremely thick impasto with visible palette-knife texture, chiaroscuro realist oil painting --no text, letters, signature, watermark, people, buildings --chaos 10 --ar 16:9 --raw --sref 7065184119 4662839742 --profile qb9q1py --sw 20 --hd
+
+Greeting: *Season's Greetings / Thinking of you this Christmas*
+
+## B2. Moonlit frozen pond with skates (moon glow + mist + snow)
+a pair of old leather ice skates with red laces resting on a snowy bank beside a frozen pond at night, a large pale full moon glowing low over the ice, bare trees and pines along the far shore, the skates and moon centered in the frame, gentle snow falling, soft mist over the ice, heavy impasto at the moonlight on the ice and snow, the surroundings loosely brushed near-black with a cold cast, extremely thick impasto with visible palette-knife texture, chiaroscuro realist oil painting --no text, letters, signature, watermark, people, buildings --chaos 10 --ar 16:9 --raw --sref 7065184119 4662839742 --profile qb9q1py --sw 20 --hd
+
+Greeting: *Merry Christmas / Wishing you a peaceful winter*
+
+## B3. Northern lights over the pines (shimmering sky + snow)
+the northern lights shimmering in soft green and gold ribbons across a starry night sky above a silent snow-covered pine forest, a lone snowy hill in the center of the frame, gentle snow falling, heavy impasto at the aurora and the snow, the forest loosely brushed near-black with a cold cast, extremely thick impasto with visible palette-knife texture, chiaroscuro realist oil painting --no text, letters, signature, watermark, people, buildings --chaos 10 --ar 16:9 --raw --sref 7065184119 4662839742 --profile qb9q1py --sw 20 --hd
+
+Greeting: *Joy to the World / May wonder fill your season*
+
+## B4. Deer in the winter forest (snow + mist + slow push-in)
+a single white-tailed deer standing still in a snowy clearing among tall dark pines at dusk, its breath misting in the cold air, a faint golden sunset glow low between the trees, the deer centered in the frame, gentle snow falling, heavy impasto at the snow and the glow, the forest loosely brushed near-black with a cold cast, extremely thick impasto with visible palette-knife texture, chiaroscuro realist oil painting --no text, letters, signature, watermark, people, buildings --chaos 10 --ar 16:9 --raw --sref 7065184119 4662839742 --profile qb9q1py --sw 20 --hd
+
+Greeting: *Season's Greetings / Peace on earth*
+
+## B5. Glass ornaments on the branch (twinkling reflections, no snow)
+a close-up still life of three antique glass Christmas ornaments in deep red, gold and green hanging from a dark evergreen branch, tiny warm lights reflected and twinkling in the glass, soft blurred golden lights behind them, the ornaments centered in the frame, heavy impasto at the reflections and the glass, the background loosely brushed near-black, extremely thick impasto with visible palette-knife texture, chiaroscuro realist oil painting --no text, letters, signature, watermark, people, snow --chaos 10 --ar 16:9 --raw --sref 7065184119 4662839742 --profile qb9q1py --sw 20 --hd
+
+Greeting: *Merry Christmas / Make it sparkle*
+
+## B6. Sleigh tracks to the barn (snow + mist + glow)
+a red wooden horse-drawn sleigh resting in deep snow beside an old weathered barn at dusk, a lantern hanging on the barn door, sleigh tracks curving across a snowy field toward the viewer, the sleigh centered in the frame, gentle snow falling, mist drifting low over the field, heavy impasto at the lantern glow and snow, the surroundings loosely brushed near-black with a cold cast, extremely thick impasto with visible palette-knife texture, chiaroscuro realist oil painting --no text, letters, signature, watermark, people --chaos 10 --ar 16:9 --raw --sref 7065184119 4662839742 --profile qb9q1py --sw 20 --hd
+
+Greeting: *Merry Christmas / Dashing through the snow to you*
