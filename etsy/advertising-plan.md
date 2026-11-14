@@ -43,7 +43,7 @@ Post the **same video** to all four places. Each one takes about 5 minutes.
 14. 15 seconds of the relaxing YouTube video: "2 hours on my channel"
 15. "Black Friday: 30% off all my Christmas cards" (Nov 27–30)
 
-**Hashtags** (pick 5): #christmascards #animatedcard #digitalchristmascard #ecard #christmasart #cozychristmas #framtvart #samsungframetv #etsyshop #smallbusiness #moodyart #christmasvibes
+**Hashtags** (pick 5): #christmascards #animatedcard #digitalchristmascard #ecard #christmasart #cozychristmas #frametvart #samsungframetv #etsyshop #smallbusiness #moodyart #christmasvibes
 
 ## 3. Free: Pinterest (slow, but it lasts)
 
