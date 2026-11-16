@@ -62,6 +62,8 @@ WHAT YOU GET (for every design)
 • Email GIF that plays by itself inside an email
 • 2 still pictures (card front and inside)
 
+Each card opens to a short seasonal greeting. Add your own personal message when you text or email it.
+
 HOW TO SEND IT
 iPhone: save the phone card to Photos, then send it in Messages like any video.
 Android: use the "small" version in picture messages.
@@ -79,6 +81,8 @@ PLEASE NOTE
 • For personal use only. Please don't resell or share the files themselves.
 • Colors may look slightly different on different screens.
 • Because this is a digital product, I can't offer refunds, but if anything isn't right, message me and I'll make it right.
+
+Artwork created by MidnightJoeArt with the help of AI image tools, then animated and designed into cards by MidnightJoeArt.
 
 Painted by MidnightJoeArt. Matching Frame TV art is also available in my shop. 🎄
 ---
