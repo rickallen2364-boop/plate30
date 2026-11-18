@@ -90,7 +90,17 @@ def inside_page(c):
     return pg, a[..., 2::-1].copy(), a[..., 3:4].copy(), inset
 
 
-def build(name):
+def drop_offset(t, drop_in):
+    """Envelope falling in from above with a small bounce (0 once landed). drop_in = (start, end) seconds."""
+    if not drop_in or t >= drop_in[1]:
+        return 0
+    u = max(0.0, (t - drop_in[0]) / (drop_in[1] - drop_in[0]))
+    c1 = 1.4                                     # ease-out-back: overshoots a touch, then settles
+    eased = 1 + (c1 + 1) * (u - 1) ** 3 + c1 * (u - 1) ** 2
+    return int(-(1 - eased) * 1500)
+
+
+def build(name, out=None, drop_in=None):
     P = prepare(name)
     c = P['c']
     # background: the painting, blurred and darkened, with a vignette
@@ -109,7 +119,7 @@ def build(name):
     pg, txt, txt_a, inset = inside_page(c)
     ix, iy, iw, ih = inset
     os.makedirs(OUT, exist_ok=True)
-    out = OUT + name + '_open.mp4'
+    out = out or OUT + name + '_open.mp4'
     cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'bgr24', '-s', f'{W}x{H}',
            '-r', str(FPS), '-i', '-', '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p',
            '-tag:v', 'avc1', '-movflags', '+faststart', out]
@@ -121,7 +131,8 @@ def build(name):
         if t < ZOOM[1]:
             fr = bg.copy()
             drop = int(ease(t, ZOOM[0], ZOOM[0] + 0.6) * 1400)       # envelope falls away early in the zoom
-            ex, ey = EX, EY + drop
+            fall = drop_offset(t, drop_in)
+            ex, ey = EX, EY + drop + fall
             over(fr, env_back, full_a, ex, ey)
             q = math.cos(math.pi * ease(t, *FLAP))                # 1 = flap closed, -1 = fully open
             tip = .56 * EH * q
@@ -131,7 +142,7 @@ def build(name):
                 fa = np.flipud(flap_a)
                 over(fr, flap_in[:fa.shape[0]] * 0.92, fa, ex, ey - fa.shape[0])
             z = ease(t, *ZOOM)
-            cy = CY0 + (CY1 - CY0) * ease(t, *RISE)
+            cy = CY0 + (CY1 - CY0) * ease(t, *RISE) + fall
             x0, y0 = CX + (0 - CX) * z, cy + (0 - cy) * z
             w_, h_ = CW + (W - CW) * z, CH + (H - CH) * z
             card = cv2.resize(front, (int(w_), int(h_)), interpolation=cv2.INTER_AREA)
