@@ -90,6 +90,12 @@ CARDS = {
                       amp=.24, hamp=.32, slow=(3, 4), flutter=(29, 47), flutter_amt=.15,
                       snow_box=[(2080, 0, 2576, 824)],   # indoor office: snow only in the window on the right
                       title="Season's Greetings", line2='Thank you for all you do this season'),
+    'barber_card': dict(file='paintings/4k/barber.jpg', crop_x=740,
+                        glow_box=(0, 0, 10, 10), lo=.98, hi=.99, halo=20, hg=1.0,
+                        amp=0.0, hamp=0.0, slow=(2, 3), flutter=(37, 59), flutter_amt=0.0,
+                        snow_box=[(129, 0, 1272, 785)],                       # the window only
+                        snow_exclude_box=[(547, 109, 1213, 835), (1034, 0, 1392, 557)],  # the elf, Santa's hat
+                        title='Merry Christmas', line2='Looking sharp this holiday season!'),
     'rooftops_card': dict(file='paintings/4k/rooftops.jpg', crop_x=915, warm=(0.18, 0.34),
                           glow_box=(0, 0, 2576, 1449), lo=.55, hi=.82, halo=35, hg=2.0,
                           amp=.24, hamp=.32, slow=(3, 4), flutter=(29, 47), flutter_amt=.15,
