@@ -1,7 +1,7 @@
 """Pack the animated cards into the folder a buyer downloads.
 
 Needs work/cards/<card>_open.mp4 (card_open.py) and work/cards/<card>.mp4 (card_loop.py) for each card.
-Usage:  python make_card_set.py [set1|set2]
+Usage:  python make_card_set.py [set1|set2|barber]
 Writes: work/delivery/<set folder>/<number name>/...
 """
 import os, subprocess, shutil, sys
@@ -18,6 +18,8 @@ SETS = {
               ('carriage_card', '7 Christmas Carriage'), ('cafe_card', '8 Snowy Night Cafe'),
               ('window_card', '9 Christmas Window'), ('rush_card', '10 Rush Christmas Eve'),
               ('rooftops_card', '11 Winter Rooftops')]),
+    'barber': ('Christmas After Dark - Santa at the Barbershop',
+               [('barber_card', '1 Santa at the Barbershop')]),
 }
 FOLDER, CARDS = SETS[sys.argv[1] if len(sys.argv) > 1 else 'set1']
 SRC = './work/cards/'
